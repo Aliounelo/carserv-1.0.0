@@ -1,0 +1,707 @@
+/********** Template CSS **********/
+:root {
+    --primary: #0f6b6b;
+    --secondary: #07345b;
+    --light: #F2F2F2;
+    --dark: #111111;
+}
+
+.fw-medium {
+    font-weight: 600 !important;
+}
+
+.back-to-top {
+    position: fixed;
+    display: none;
+    right: 45px;
+    bottom: 45px;
+    z-index: 99;
+}
+
+
+/*** Spinner ***/
+#spinner {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s ease-out, visibility 0s linear .5s;
+    z-index: 99999;
+}
+
+#spinner.show {
+    transition: opacity .5s ease-out, visibility 0s linear 0s;
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*** Button ***/
+.btn {
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: .5s;
+}
+
+.btn.btn-primary,
+.btn.btn-secondary {
+    color: #FFFFFF;
+}
+
+/* MARGE brand colors for utility classes */
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.btn.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+.btn.btn-primary:hover {
+    background: #0d5a5a;
+    border-color: #0d5a5a;
+}
+
+.btn-square {
+    width: 38px;
+    height: 38px;
+}
+
+.btn-sm-square {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-lg-square {
+    width: 48px;
+    height: 48px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+    border-radius: 2px;
+}
+
+
+/*** Navbar ***/
+.navbar .dropdown-toggle::after {
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    margin-right: 30px;
+    padding: 25px 0;
+    color: #FFFFFF;
+    font-size: 15px;
+    text-transform: uppercase;
+    outline: none;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+    color: var(--primary);
+}
+
+@media (max-width: 991.98px) {
+    .navbar-light .navbar-nav .nav-link  {
+        margin-right: 0;
+        padding: 10px 0;
+    }
+
+    .navbar-light .navbar-nav {
+        border-top: 1px solid #EEEEEE;
+    }
+}
+
+.navbar-light .navbar-brand,
+.navbar-light a.btn {
+    height: 75px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: var(--dark);
+    font-weight: 500;
+}
+
+.navbar-light.sticky-top {
+    top: -100px;
+    transition: .5s;
+}
+
+@media (min-width: 992px) {
+    .navbar .nav-item .dropdown-menu {
+        display: block;
+        border: none;
+        margin-top: 0;
+        top: 150%;
+        opacity: 0;
+        visibility: hidden;
+        transition: .5s;
+    }
+
+    .navbar .nav-item:hover .dropdown-menu {
+        top: 100%;
+        visibility: visible;
+        transition: .5s;
+        opacity: 1;
+    }
+}
+
+
+/*** Header ***/
+.carousel-caption {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .7);
+    z-index: 1;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 10%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 3rem;
+    height: 3rem;
+}
+
+@media (max-width: 768px) {
+    #header-carousel .carousel-item {
+        position: relative;
+        min-height: 450px;
+    }
+    
+    #header-carousel .carousel-item img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.page-header {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.page-header-inner {
+    background: rgba(0, 0, 0, .7);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--light);
+}
+
+
+/*** Facts ***/
+.fact {
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../img/carousel-bg-1.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+/*** Service ***/
+.service .nav .nav-link {
+    background: var(--light);
+    transition: .5s;
+}
+
+.service .nav .nav-link.active {
+    background: var(--primary);
+}
+
+.service .nav .nav-link.active h4 {
+    color: #FFFFFF !important;
+}
+
+
+/*** Booking ***/
+.booking {
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../img/carousel-bg-2.jpg) center center no-repeat;
+    background-size: cover;
+}
+
+.bootstrap-datetimepicker-widget.bottom {
+    top: auto !important;
+}
+
+.bootstrap-datetimepicker-widget .table * {
+    border-bottom-width: 0px;
+}
+
+.bootstrap-datetimepicker-widget .table th {
+    font-weight: 500;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover {
+    background: var(--primary);
+}
+
+.bootstrap-datetimepicker-widget table td.today::before {
+    border-bottom-color: var(--primary);
+}
+
+
+/*** Team ***/
+.team-item .team-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    transform: scale(0);
+    transition: .5s;
+}
+
+.team-item:hover .team-overlay {
+    transform: scale(1);
+}
+
+.team-item .team-overlay .btn {
+    color: var(--primary);
+    background: #FFFFFF;
+}
+
+.team-item .team-overlay .btn:hover {
+    color: #FFFFFF;
+    background: var(--secondary)
+}
+
+
+/*** Testimonial ***/
+.testimonial-carousel .owl-item .testimonial-text,
+.testimonial-carousel .owl-item.center .testimonial-text * {
+    transition: .5s;
+}
+
+.testimonial-carousel .owl-item.center .testimonial-text {
+    background: var(--primary) !important;
+}
+
+.testimonial-carousel .owl-item.center .testimonial-text * {
+    color: #FFFFFF !important;
+}
+
+.testimonial-carousel .owl-dots {
+    margin-top: 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.testimonial-carousel .owl-dot {
+    position: relative;
+    display: inline-block;
+    margin: 0 5px;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #CCCCCC;
+    transition: .5s;
+}
+
+.testimonial-carousel .owl-dot.active {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+
+/*** Footer ***/
+.footer {
+    background: linear-gradient(rgba(0, 0, 0, .9), rgba(0, 0, 0, .9)), url(../img/carousel-bg-1.jpg) center center no-repeat;
+    background-size: cover;
+}
+
+.footer .btn.btn-social {
+    margin-right: 5px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--light);
+    border: 1px solid #FFFFFF;
+    border-radius: 35px;
+    transition: .3s;
+}
+
+.footer .btn.btn-social:hover {
+    color: var(--primary);
+}
+
+.footer .btn.btn-link {
+    display: block;
+    margin-bottom: 5px;
+    padding: 0;
+    text-align: left;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: normal;
+    text-transform: capitalize;
+    transition: .3s;
+}
+
+.footer .btn.btn-link::before {
+    position: relative;
+    content: "\f105";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+}
+
+.footer .btn.btn-link:hover {
+    letter-spacing: 1px;
+    box-shadow: none;
+}
+
+.footer .copyright {
+    padding: 25px 0;
+    font-size: 15px;
+    border-top: 1px solid rgba(256, 256, 256, .1);
+}
+
+.footer .copyright a {
+    color: var(--light);
+}
+
+.footer .footer-menu a {
+    margin-right: 15px;
+    padding-right: 15px;
+    border-right: 1px solid rgba(255, 255, 255, .3);
+}
+
+.footer .footer-menu a:last-child {
+    margin-right: 0;
+    padding-right: 0;
+    border-right: none;
+}
+
+/* === Override legacy red from original template to MARGE palette === */
+/* Ensures library styles that used hard-coded red are following MARGE brand */
+
+/* Map Bootstrap CSS variables to MARGE palette so components using vars follow the brand */
+:root {
+    --bs-primary: #0f6b6b; /* MARGE primary (teal) */
+    --bs-secondary: #07345b; /* MARGE dark blue */
+}
+
+/* High-specificity, comprehensive overrides for selectors that used the original template red */
+/* Use !important to ensure vendor rules (bootstrap.min.css) are overridden without editing vendor files */
+.link-primary,
+.nav-link,
+.page-link,
+.btn-link,
+.btn-primary,
+.btn-outline-primary,
+.bg-primary,
+.text-primary,
+.progress-bar,
+.list-group-item.active,
+.nav-pills .nav-link.active,
+.dropdown-item.active,
+.page-item.active .page-link,
+.form-check-input:checked,
+.form-range::-webkit-slider-thumb,
+.form-range::-moz-range-thumb,
+.btn-outline-primary:hover,
+.btn-check:checked+.btn-outline-primary,
+.btn-check:active+.btn-outline-primary,
+.btn-outline-primary.active,
+.btn-outline-primary.dropdown-toggle.show,
+.btn-outline-primary:disabled,
+.btn-outline-primary.disabled {
+    color: var(--primary) !important;
+    background-color: transparent !important;
+    border-color: var(--primary) !important;
+}
+
+/* For elements that should have a filled background (buttons, badges, progress bars, active items) */
+.btn-primary,
+.bg-primary,
+.progress-bar,
+.list-group-item.active,
+.nav-pills .nav-link.active,
+.dropdown-item.active,
+.page-item.active .page-link {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #fff !important;
+}
+
+/* Links and simple text color */
+.link-primary,
+.text-primary,
+.nav-link,
+.page-link,
+.btn-link {
+    color: var(--primary) !important;
+}
+
+/* Focus/box-shadow states that used red glows */
+.btn:focus,
+.btn-check:focus + .btn,
+.btn-primary:focus,
+.btn-outline-primary:focus,
+.page-link:focus,
+.form-check-input:focus,
+.form-range:focus::-webkit-slider-thumb,
+.form-range:focus::-moz-range-thumb {
+    box-shadow: 0 0 0 .25rem rgba(15,107,107,0.15) !important;
+}
+
+/* Checkbox/radio checked states */
+.form-check-input:checked {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+/* Ensure utility classes like .bg-primary/.text-primary/.border-primary use MARGE palette */
+.bg-primary { background-color: var(--primary) !important; }
+.text-primary { color: var(--primary) !important; }
+.border-primary { border-color: var(--primary) !important; }
+
+/* Small components & pseudo-elements (dropdown active, pagination active) */
+.dropdown-item.active,
+.page-item.active .page-link,
+.nav-pills .nav-link.active { color: #fff !important; background-color: var(--primary) !important; }
+
+/* For any remaining strong instances of the hex #D81324 in inline/vendor rules we can't change, force overrules */
+*[style*="#D81324"] {
+    /* best-effort override for inline styles containing the old red value */
+    color: inherit !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
+/* End of MARGE overrides */
+
+/* === EXTRA: exhaustive overrides to neutralize any remaining red accents === */
+/* Global links */
+a, a:link, a:visited {
+    color: var(--primary) !important;
+}
+a:hover, a:focus {
+    color: var(--primary) !important;
+    text-decoration: underline !important;
+}
+
+/* Nav, pagination, pills, and generic link utilities */
+.nav-link, .nav-link:hover, .nav-link:focus, .nav-link.active {
+    color: var(--primary) !important;
+}
+.nav-pills .nav-link.active, .nav-fill .nav-link, .nav-justified .nav-link {
+    background-color: var(--primary) !important;
+    color: #fff !important;
+}
+.page-link, .page-link:hover, .page-link:focus {
+    color: var(--primary) !important;
+    background-color: transparent !important;
+    border-color: var(--primary) !important;
+}
+.page-item.active .page-link {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #fff !important;
+}
+
+/* Links and utility classes */
+.link-primary, .link-primary:hover, .link-primary:focus {
+    color: var(--primary) !important;
+}
+.btn-link, .btn-link:hover, .btn-link:focus {
+    color: var(--primary) !important;
+}
+
+/* Buttons: primary / outline primary / focus / hover */
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:focus,
+.btn-check:active + .btn-primary, .btn-check:checked + .btn-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #fff !important;
+}
+.btn-outline-primary {
+    color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary.active {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #fff !important;
+}
+
+/* Form controls focus states */
+.form-control:focus, .form-select:focus, .form-check-input:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 .25rem rgba(15,107,107,0.12) !important;
+}
+
+/* Checked inputs */
+.form-check-input:checked {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+/* Slider / range thumbs */
+.form-range::-webkit-slider-thumb {
+    background-color: var(--primary) !important;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 .25rem rgba(15,107,107,0.12) !important;
+}
+.form-range::-moz-range-thumb {
+    background-color: var(--primary) !important;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 .25rem rgba(15,107,107,0.12) !important;
+}
+
+/* Progress bars, list-group active, dropdown active */
+.progress-bar {
+    background-color: var(--primary) !important;
+}
+.list-group-item.active {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #fff !important;
+}
+.dropdown-item.active, .dropdown-item:active {
+    background-color: var(--primary) !important;
+    color: #fff !important;
+}
+
+/* Close buttons and focus glows that used red */
+.btn-close:focus, .btn-close:active {
+    box-shadow: 0 0 0 .25rem rgba(15,107,107,0.12) !important;
+}
+
+/* Accordion focus */
+.accordion-button:focus {
+    box-shadow: 0 0 0 .25rem rgba(15,107,107,0.12) !important;
+    border-color: var(--primary) !important;
+}
+
+/* Force CSS variables to MARGE for safety in case some files re-declare them */
+:root {
+    --bs-primary: #0f6b6b !important;
+}
+
+/* Catch inline style hex occurrences as a last resort (will neutralize backgrounds/borders/colors) */
+*[style*="#D81324"] { color: inherit !important; background-color: transparent !important; border-color: transparent !important; }
+*[style*="#b8101f"] { color: inherit !important; background-color: transparent !important; border-color: transparent !important; }
+*[style*="#ad0f1d"] { color: inherit !important; background-color: transparent !important; border-color: transparent !important; }
+
+/* End exhaustive overrides */
+:root {
+    --marge-primary: var(--primary);
+    --marge-secondary: var(--secondary);
+}
+
+/* Buttons */
+.btn-primary,
+.btn-check:checked+.btn-primary,
+.btn-check:active+.btn-primary,
+.btn-primary:active,
+.btn-primary.active,
+.show>.btn-primary.dropdown-toggle,
+.btn-primary:disabled,
+.btn-primary.disabled {
+    background-color: var(--marge-primary) !important;
+    border-color: var(--marge-primary) !important;
+    color: #fff !important;
+}
+.btn-primary:hover,
+.btn-check:focus+.btn-primary,
+.btn-primary:focus {
+    background-color: #0d5a5a !important;
+    border-color: #0d5a5a !important;
+}
+
+.btn-outline-primary {
+    color: var(--marge-primary) !important;
+    border-color: var(--marge-primary) !important;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-check:checked+.btn-outline-primary,
+.btn-outline-primary:active {
+    background-color: var(--marge-primary) !important;
+    color: #fff !important;
+    border-color: var(--marge-primary) !important;
+}
+
+/* Backgrounds / links / text */
+.bg-primary { background-color: var(--marge-primary) !important; color: #fff !important; }
+.text-primary { color: var(--marge-primary) !important; }
+.link-primary { color: var(--marge-primary) !important; }
+.link-primary:hover { color: var(--marge-primary) !important; opacity: .9; }
+
+/* Nav / pills / pagination / lists */
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link { background-color: var(--marge-primary) !important; color:#fff !important; }
+.page-item.active .page-link { background-color: var(--marge-primary) !important; border-color: var(--marge-primary) !important; color:#fff !important; }
+.list-group-item.active { background-color: var(--marge-primary) !important; border-color: var(--marge-primary) !important; color:#fff !important; }
+
+/* Progress, carousel dots */
+.progress-bar { background-color: var(--marge-primary) !important; }
+.testimonial-carousel .owl-dot.active { background: var(--marge-primary) !important; border-color: var(--marge-primary) !important; }
+
+/* Forms and controls */
+.form-check-input:checked {
+    background-color: var(--marge-primary) !important;
+    border-color: var(--marge-primary) !important;
+}
+.form-check-input:focus,
+.form-control:focus {
+    border-color: var(--marge-primary) !important;
+    box-shadow: 0 0 0 .25rem rgba(15,107,107,0.15) !important;
+}
+.form-range::-webkit-slider-thumb { background-color: var(--marge-primary) !important; }
+.form-range::-moz-range-thumb { background-color: var(--marge-primary) !important; }
+
+/* Accordion / dropdown active states */
+.accordion-button:not(.collapsed) {
+    color: #fff !important;
+    background-color: var(--marge-primary) !important;
+    box-shadow: none !important;
+}
+.accordion-button:focus { box-shadow: 0 0 0 .25rem rgba(15,107,107,0.15) !important; border-color: var(--marge-primary) !important; }
+
+/* Dropdown / active item */
+.dropdown-item.active, .dropdown-item:active { background-color: var(--marge-primary) !important; color: #fff !important; }
+
+/* Buttons rendered as links */
+.btn-link { color: var(--marge-primary) !important; }
+
+/* Ensure breadcrumb / other small accents using .page-link or .nav-link don't keep the old red */
+.page-link, .page-link:hover, .page-link:focus, .nav-link { color: inherit !important; }
+
+/* end overrides */
+
+/* Navbar CTA and nav visibility fixes: ensure text is visible by default (no hover needed) */
+.navbar .btn.btn-primary {
+    background-color: var(--marge-primary) !important;
+    border-color: var(--marge-primary) !important;
+    color: #fff !important;
+}
+.navbar .nav-link {
+    color: var(--dark) !important;
+}
+.navbar .nav-link:hover, .navbar .nav-link:focus, .navbar .nav-link.active {
+    color: var(--marge-primary) !important;
+}
