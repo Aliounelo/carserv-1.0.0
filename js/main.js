@@ -108,5 +108,43 @@
             }
         }
     });
-    
+
+    // Simple form wiring for contact & booking
+    function wireForm(formId, statusId, endpoint) {
+        const form = document.getElementById(formId);
+        const status = document.getElementById(statusId);
+        if (!form || !status) return;
+
+        const showStatus = (ok, message) => {
+            status.classList.remove('d-none', 'alert-success', 'alert-danger');
+            status.classList.add(ok ? 'alert-success' : 'alert-danger');
+            status.textContent = message;
+        };
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(form).entries());
+            showStatus(true, 'Envoi en cours...');
+            try {
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+                const body = await res.json().catch(() => ({}));
+                if (!res.ok || !body.ok) {
+                    throw new Error(body.error || 'Erreur serveur');
+                }
+                showStatus(true, 'Message envoyé avec succès.');
+                form.reset();
+            } catch (err) {
+                showStatus(false, err.message || 'Impossible d\'envoyer le message.');
+            }
+        });
+    }
+
+    wireForm('contactForm', 'contactStatus', '/api/contact.php');
+    wireForm('bookingForm', 'bookingStatus', '/api/booking.php');
+
 })(jQuery);
+
