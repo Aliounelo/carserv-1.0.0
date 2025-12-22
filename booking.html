@@ -341,7 +341,7 @@
             fd.append("website","");
 
             try {
-                const res = await fetch("/api/booking.php", { method:"POST", body: fd });
+                const res = await fetch("/api/send-booking.php", { method:"POST", body: fd });
                 const data = await res.json();
                 if (!res.ok || !data.ok) throw new Error(data.error || "Erreur");
                 if (status) { status.classList.add("alert-success"); status.textContent = "Demande envoyée. Nous vous contactons rapidement."; }

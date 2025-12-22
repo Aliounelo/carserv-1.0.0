@@ -143,8 +143,8 @@
         });
     }
 
-    wireForm('contactForm', 'contactStatus', '/api/contact.php');
-    wireForm('bookingForm', 'bookingStatus', '/api/booking.php');
+    wireForm('contactForm', 'contactStatus', '/api/send.php');
+    wireForm('bookingForm', 'bookingStatus', '/api/send-booking.php');
 
 })(jQuery);
 

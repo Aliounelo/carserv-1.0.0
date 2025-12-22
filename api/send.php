@@ -1,4 +1,9 @@
 <?php
+
+ini_set('log_errors', '1');
+ini_set('error_log', __DIR__ . '/error.log');
+error_reporting(E_ALL);
+
 header('Content-Type: application/json; charset=utf-8');
 
 $config = require __DIR__ . '/config.php';
@@ -51,6 +56,7 @@ try {
 
   echo json_encode(['ok'=>true,'message'=>'Message envoyé.']);
 } catch (Throwable $e) {
+  error_log("MAIL ERROR: " . $e->getMessage());
   http_response_code(500);
-  echo json_encode(['ok'=>false,'error'=>"Erreur d'envoi email."]);
+  echo json_encode(['ok'=>false,'error'=>"Erreur serveur."]);
 }

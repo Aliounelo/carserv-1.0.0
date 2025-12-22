@@ -587,6 +587,7 @@
     <script src="js/main.js"></script>
 
     <script>
+
         document.getElementById("contactForm")?.addEventListener("submit", async (e) => {
             e.preventDefault();
             const status = document.getElementById("contactStatus");
@@ -600,7 +601,8 @@
             fd.append("website",""); // honeypot
 
             try {
-                const res = await fetch("/api/contact.php", { method:"POST", body: fd });
+
+                const res = await fetch("/api/send.php", { method:"POST", body: fd, headers: { "X-Requested-With": "XMLHttpRequest" } });
                 const data = await res.json();
                 if (!res.ok || !data.ok) throw new Error(data.error || "Erreur");
                 if (status) { status.classList.add("alert-success"); status.textContent = "Message envoyé. Merci !"; }
