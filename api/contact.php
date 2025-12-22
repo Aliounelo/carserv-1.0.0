@@ -12,17 +12,22 @@ function send_mail_with_fallback(string $to, string $from, string $replyToName, 
     $headers[] = 'Reply-To: ' . $replyToName . ' <' . $replyToEmail . '>';
     $headers[] = 'Content-Type: text/plain; charset=UTF-8';
 
-    // Local/dev mode: if MAIL_DEV_LOG is set, log instead of sending
-    $logFile = getenv('MAIL_DEV_LOG') ?: __DIR__ . '/mail_dev.log';
-    if (getenv('MAIL_DEV_LOG')) {
-        file_put_contents($logFile, "=== CONTACT ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
+    $logPath = getenv('MAIL_DEV_LOG');
+
+    // If MAIL_DEV_LOG is set (even to a path), log instead of sending
+    if ($logPath !== false && $logPath !== '') {
+        if ($logPath === '1' || $logPath === 'true') {
+            $logPath = __DIR__ . '/mail_dev.log';
+        }
+        file_put_contents($logPath, "=== CONTACT ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
         return true;
     }
 
     $sent = mail($to, $subject, $body, implode("\r\n", $headers));
 
-    if (!$sent && $logFile) {
-        file_put_contents($logFile, "=== CONTACT (FAILED SEND, LOGGED) ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
+    if (!$sent) {
+        // fallback log to help debugging in production if sending fails
+        file_put_contents(__DIR__ . '/mail_dev.log', "=== CONTACT (FAILED SEND, LOGGED) ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
     }
 
     return $sent;
@@ -50,7 +55,6 @@ $email = trim($data['email']);
 $subject = trim($data['subject']);
 $message = trim($data['message']);
 
-// Basic sanitization
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'Email invalide');
 }

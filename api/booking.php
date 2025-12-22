@@ -12,28 +12,34 @@ function send_mail_with_fallback(string $to, string $from, string $replyToName, 
     $headers[] = 'Reply-To: ' . $replyToName . ' <' . $replyToEmail . '>';
     $headers[] = 'Content-Type: text/plain; charset=UTF-8';
 
-    // Local/dev mode: if MAIL_DEV_LOG is set, log instead of sending
-    $logFile = getenv('MAIL_DEV_LOG') ?: __DIR__ . '/mail_dev.log';
-    if (getenv('MAIL_DEV_LOG')) {
-        file_put_contents($logFile, "=== BOOKING ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
+    $logPath = getenv('MAIL_DEV_LOG');
+
+    // If MAIL_DEV_LOG is set (even to a path), log instead of sending
+    if ($logPath !== false && $logPath !== '') {
+        if ($logPath === '1' || $logPath === 'true') {
+            $logPath = __DIR__ . '/mail_dev.log';
+        }
+        file_put_contents($logPath, "=== BOOKING ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
         return true;
     }
 
     $sent = mail($to, $subject, $body, implode("\r\n", $headers));
 
-    if (!$sent && $logFile) {
-        file_put_contents($logFile, "=== BOOKING (FAILED SEND, LOGGED) ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
+    if (!$sent) {
+        // fallback log to help debugging in production if sending fails
+        file_put_contents(__DIR__ . '/mail_dev.log', "=== BOOKING (FAILED SEND, LOGGED) ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
     }
 
     return $sent;
 }
 
+// Accept JSON or form-encoded
 $data = json_decode(file_get_contents('php://input'), true);
 if (!$data) {
     $data = $_POST;
 }
 
-$required = ['name', 'email', 'service', 'date', 'details'];
+$required = ['name', 'email', 'service', 'details'];
 $missing = [];
 foreach ($required as $field) {
     if (!isset($data[$field]) || trim($data[$field]) === '') {
@@ -47,7 +53,7 @@ if ($missing) {
 $name = trim($data['name']);
 $email = trim($data['email']);
 $service = trim($data['service']);
-$date = trim($data['date']);
+$date = isset($data['date']) ? trim($data['date']) : '';
 $details = trim($data['details']);
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

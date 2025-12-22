@@ -1,4 +1,4 @@
-(function ($) {
+﻿(function ($) {
     "use strict";
 
     // Spinner
@@ -147,4 +147,5 @@
     wireForm('bookingForm', 'bookingStatus', '/api/booking.php');
 
 })(jQuery);
+
 
