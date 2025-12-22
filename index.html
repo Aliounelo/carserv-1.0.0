@@ -585,6 +585,32 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <script>
+        document.getElementById("contactForm")?.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const status = document.getElementById("contactStatus");
+            if (status) {
+                status.classList.remove("d-none","alert-success","alert-danger");
+                status.classList.add("alert");
+                status.textContent = "Envoi en cours...";
+            }
+
+            const fd = new FormData(e.target);
+            fd.append("website",""); // honeypot
+
+            try {
+                const res = await fetch("/api/contact.php", { method:"POST", body: fd });
+                const data = await res.json();
+                if (!res.ok || !data.ok) throw new Error(data.error || "Erreur");
+                if (status) { status.classList.add("alert-success"); status.textContent = "Message envoyé. Merci !"; }
+                e.target.reset();
+            } catch (err) {
+                if (status) { status.classList.add("alert-danger"); status.textContent = "Échec d'envoi. Réessayez plus tard."; }
+            }
+        });
+</script>
+
 </body>
 
 </html>

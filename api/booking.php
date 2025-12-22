@@ -1,74 +1,56 @@
 <?php
-header('Content-Type: application/json; charset=UTF-8');
+header('Content-Type: application/json; charset=utf-8');
 
-function respond(bool $ok, ?string $msg = null): void {
-    echo json_encode(['ok' => $ok, 'error' => $ok ? null : $msg], JSON_UNESCAPED_UNICODE);
-    exit;
+$config = require __DIR__ . '/config.php';
+require __DIR__ . '/rate_limit.php';
+rate_limit_or_die((int)$config['max_per_15min'], 900);
+
+function t($v): string { return trim((string)($v ?? '')); }
+function emailv($v): string { return trim(filter_var($v ?? '', FILTER_SANITIZE_EMAIL)); }
+
+$name    = t($_POST['name'] ?? '');
+$email   = emailv($_POST['email'] ?? '');
+$service = t($_POST['service'] ?? '');
+$date    = t($_POST['date'] ?? '');
+$details = trim((string)($_POST['details'] ?? ''));
+
+$hp = t($_POST['website'] ?? '');
+if ($hp !== '') { echo json_encode(['ok'=>true]); exit; }
+
+if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $service === '' || $details === '') {
+  http_response_code(400);
+  echo json_encode(['ok'=>false,'error'=>'Champs invalides.']);
+  exit;
 }
 
-function send_mail_with_fallback(string $to, string $from, string $replyToName, string $replyToEmail, string $subject, string $body): bool {
-    $headers = [];
-    $headers[] = 'From: MARGE <' . $from . '>';
-    $headers[] = 'Reply-To: ' . $replyToName . ' <' . $replyToEmail . '>';
-    $headers[] = 'Content-Type: text/plain; charset=UTF-8';
+try {
+  require __DIR__ . '/../vendor/autoload.php';
+  $mail = new PHPMailer\PHPMailer\PHPMailer(true);
 
-    $logPath = getenv('MAIL_DEV_LOG');
+  $mail->isSMTP();
+  $mail->Host       = $config['smtp_host'];
+  $mail->SMTPAuth   = true;
+  $mail->Username   = $config['smtp_user'];
+  $mail->Password   = $config['smtp_pass'];
+  $mail->SMTPSecure = $config['smtp_secure'];
+  $mail->Port       = (int)$config['smtp_port'];
 
-    // If MAIL_DEV_LOG is set (even to a path), log instead of sending
-    if ($logPath !== false && $logPath !== '') {
-        if ($logPath === '1' || $logPath === 'true') {
-            $logPath = __DIR__ . '/mail_dev.log';
-        }
-        file_put_contents($logPath, "=== BOOKING ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
-        return true;
-    }
+  $mail->CharSet = 'UTF-8';
+  $mail->setFrom($config['from_email'], $config['from_name']);
+  $mail->addAddress($config['to_booking']);
+  $mail->addReplyTo($email, $name);
 
-    $sent = mail($to, $subject, $body, implode("\r\n", $headers));
+  $mail->Subject = "[MARGE][Demande] " . $service;
 
-    if (!$sent) {
-        // fallback log to help debugging in production if sending fails
-        file_put_contents(__DIR__ . '/mail_dev.log', "=== BOOKING (FAILED SEND, LOGGED) ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
-    }
+  $body = "Nouvelle demande (Booking/Devis)\n\n"
+        . "Nom: $name\nEmail: $email\nService: $service\nDate: $date\n\n"
+        . "Détails:\n$details\n";
 
-    return $sent;
-}
+  $mail->Body = $body;
+  $mail->send();
 
-// Accept JSON or form-encoded
-$data = json_decode(file_get_contents('php://input'), true);
-if (!$data) {
-    $data = $_POST;
-}
-
-$required = ['name', 'email', 'service', 'details'];
-$missing = [];
-foreach ($required as $field) {
-    if (!isset($data[$field]) || trim($data[$field]) === '') {
-        $missing[] = $field;
-    }
-}
-if ($missing) {
-    respond(false, 'Champs manquants: ' . implode(', ', $missing));
-}
-
-$name = trim($data['name']);
-$email = trim($data['email']);
-$service = trim($data['service']);
-$date = isset($data['date']) ? trim($data['date']) : '';
-$details = trim($data['details']);
-
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    respond(false, 'Email invalide');
-}
-
-$to = 'contact@marge-expert.com';
-$from = 'contact@marge-expert.com';
-$subject = 'Réservation MARGE - ' . $service;
-$body = "Nom: {$name}\nEmail: {$email}\nService: {$service}\nDate souhaitée: {$date}\nDétails:\n{$details}";
-
-$ok = send_mail_with_fallback($to, $from, $name, $email, $subject, $body);
-
-if ($ok) {
-    respond(true);
-} else {
-    respond(false, 'Envoi impossible (mail)');
+  echo json_encode(['ok'=>true,'message'=>'Demande envoyée.']);
+} catch (Throwable $e) {
+  http_response_code(500);
+  echo json_encode(['ok'=>false,'error'=>"Erreur d'envoi email."]);
 }
