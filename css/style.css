@@ -6,6 +6,28 @@
     --dark: #111111;
 }
 
+/* Phone input group alignment */
+.phone-group .form-select,
+.phone-group .form-control {
+    height: 55px;
+}
+
+.phone-group .form-select {
+    max-width: 160px;
+    border-right: 0;
+    flex: 0 0 auto;
+}
+
+.phone-group .form-control {
+    border-left: 0;
+    flex: 1 1 auto;
+}
+
+.phone-group .form-select:focus,
+.phone-group .form-control:focus {
+    box-shadow: none;
+}
+
 .fw-medium {
     font-weight: 600 !important;
 }

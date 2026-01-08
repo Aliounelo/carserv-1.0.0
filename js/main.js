@@ -152,12 +152,24 @@
                     throw new Error(body.error || 'Erreur serveur');
                 }
                 showStatus(true, 'Message envoyé avec succès.');
+                if (body.whatsapp_url) {
+                    const link = document.createElement('a');
+                    link.href = body.whatsapp_url;
+                    link.target = '_blank';
+                    link.rel = 'noopener';
+                    link.className = 'd-block mt-2 text-decoration-underline';
+                    link.textContent = 'Envoyer aussi sur WhatsApp';
+                    status.appendChild(link);
+                }
                 form.reset();
             } catch (err) {
                 showStatus(false, err.message || 'Impossible d\'envoyer le message.');
             }
         });
     }
+
+    // Populate phone codes with full list
+    // plus de sélection d'indicatif : champs téléphone simples
 
     wireForm('contactForm', 'contactStatus', '/api/send.php');
     wireForm('bookingForm', 'bookingStatus', '/api/send-booking.php');

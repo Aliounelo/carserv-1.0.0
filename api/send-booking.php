@@ -50,12 +50,13 @@ $email   = emailv($_POST['email'] ?? '');
 $service = t($_POST['service'] ?? '');
 $date    = t($_POST['date'] ?? '');
 $details = trim((string)($_POST['details'] ?? ''));
+$phoneFull = t($_POST['phone'] ?? '');
 $submissionId = t($_POST['submission_id'] ?? '');
 
 $hp = t($_POST['website'] ?? '');
 if ($hp !== '') { echo json_encode(['ok'=>true]); exit; }
 
-if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $service === '' || $details === '') {
+if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $service === '' || $details === '' || $phoneFull === '') {
   http_response_code(400);
   echo json_encode(['ok'=>false,'error'=>'Champs invalides.']);
   exit;
@@ -124,6 +125,11 @@ $body = '
                 </tr>
 
                 <tr>
+                  <td style="padding:6px 0; color:#6b7280;"><strong>Téléphone</strong></td>
+                  <td style="padding:6px 0;">'.htmlspecialchars($phoneFull).'</td>
+                </tr>
+
+                <tr>
                   <td style="padding:6px 0; color:#6b7280;"><strong>Date</strong></td>
                   <td style="padding:6px 0;">'.htmlspecialchars($date).'</td>
                 </tr>
@@ -171,7 +177,22 @@ $ok = send_mail_simple(
 );
 
 if ($ok) {
-  echo json_encode(['ok'=>true,'message'=>'Demande envoyée.']);
+  $whatsappText = rawurlencode(
+    "Nouvelle demande Booking\n".
+    "Nom: $name\n".
+    "Email: $email\n".
+    "Téléphone: $phoneFull\n".
+    "Service: $service\n".
+    "Date: $date\n".
+    "Détails: $details"
+  );
+  $whatsappUrl = "https://wa.me/221777777218?text={$whatsappText}";
+
+  echo json_encode([
+    'ok'=>true,
+    'message'=>'Demande envoyée.',
+    'whatsapp_url' => $whatsappUrl
+  ]);
 } else {
   http_response_code(500);
   echo json_encode(['ok'=>false,'error'=>"Erreur serveur."]);

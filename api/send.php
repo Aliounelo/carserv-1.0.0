@@ -49,19 +49,20 @@ $name    = t($_POST['name'] ?? '');
 $email   = emailv($_POST['email'] ?? '');
 $subject = t($_POST['subject'] ?? '');
 $message = trim((string)($_POST['message'] ?? ''));
+$phoneFull = t($_POST['phone'] ?? '');
 
 // Honeypot anti-bot (champ caché optionnel)
 $hp = t($_POST['website'] ?? '');
 if ($hp !== '') { echo json_encode(['ok'=>true]); exit; }
 
-if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $subject === '' || $message === '') {
+if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $subject === '' || $message === '' || $phoneFull === '') {
   http_response_code(400);
   echo json_encode(['ok'=>false,'error'=>'Champs invalides.']);
   exit;
 }
 
 // Stop duplicate submissions within a short window
-$fingerprint = implode('|', [$email, $subject, substr($message, 0, 120)]);
+$fingerprint = implode('|', [$email, $subject, substr($message, 0, 120), $phoneFull]);
 if (already_sent_recent($fingerprint, 90)) {
   echo json_encode(['ok'=>true,'message'=>'Déjà envoyé (duplication ignorée).']);
   exit;
@@ -117,6 +118,11 @@ $body = '
                 <tr>
                   <td style="padding:6px 0; color:#6b7280;"><strong>Objet</strong></td>
                   <td style="padding:6px 0;">'.htmlspecialchars($subject).'</td>
+                </tr>
+
+                <tr>
+                  <td style="padding:6px 0; color:#6b7280;"><strong>Téléphone</strong></td>
+                  <td style="padding:6px 0;">'.htmlspecialchars($phoneFull).'</td>
                 </tr>
 
               </table>
