@@ -161,6 +161,7 @@
 
     wireForm('contactForm', 'contactStatus', '/api/send.php');
     wireForm('bookingForm', 'bookingStatus', '/api/send-booking.php');
+    wireForm('homeBookingForm', 'homeBookingStatus', '/api/send-booking.php');
 
 })(jQuery);
 
