@@ -121,7 +121,7 @@
             // Enforce clear color feedback (green on success, red on error)
             status.style.backgroundColor = ok ? '#d1e7dd' : '#f8d7da';
             status.style.color = ok ? '#0f5132' : '#842029';
-            status.textContent = message;
+            status.innerHTML = message;
         };
 
         form.addEventListener('submit', async (e) => {
@@ -158,7 +158,7 @@
                     link.target = '_blank';
                     link.rel = 'noopener';
                     link.className = 'd-block mt-2 text-decoration-underline';
-                    link.textContent = 'Envoyer aussi sur WhatsApp';
+                    link.textContent = 'Ouvrir dans WhatsApp';
                     status.appendChild(link);
                 }
                 form.reset();

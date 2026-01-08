@@ -160,7 +160,21 @@ $body = '
 $ok = send_mail_simple($config['to_contact'], $config['from_email'], $config['from_name'], $name, $email, "[MARGE][Contact] $subject", $body);
 
 if ($ok) {
-  echo json_encode(['ok'=>true,'message'=>'Message envoyé.']);
+  $whatsappText = rawurlencode(
+    "Nouveau message Contact\n".
+    "Nom: $name\n".
+    "Email: $email\n".
+    "Téléphone: $phoneFull\n".
+    "Objet: $subject\n".
+    "Message: $message"
+  );
+  $whatsappUrl = "https://wa.me/221780151582?text={$whatsappText}";
+
+  echo json_encode([
+    'ok'=>true,
+    'message'=>'Message envoyé.',
+    'whatsapp_url' => $whatsappUrl
+  ]);
 } else {
   http_response_code(500);
   echo json_encode(['ok'=>false,'error'=>"Erreur serveur."]);

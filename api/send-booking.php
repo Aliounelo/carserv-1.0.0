@@ -186,7 +186,7 @@ if ($ok) {
     "Date: $date\n".
     "Détails: $details"
   );
-  $whatsappUrl = "https://wa.me/221777777218?text={$whatsappText}";
+  $whatsappUrl = "https://wa.me/221780151582?text={$whatsappText}";
 
   echo json_encode([
     'ok'=>true,
