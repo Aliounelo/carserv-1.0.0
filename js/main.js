@@ -126,6 +126,20 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            e.stopPropagation();
+
+            // Anti double-submit token for booking
+            if (formId === 'bookingForm') {
+                let token = form.querySelector('input[name=\"submission_id\"]');
+                if (!token) {
+                    token = document.createElement('input');
+                    token.type = 'hidden';
+                    token.name = 'submission_id';
+                    form.appendChild(token);
+                }
+                token.value = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+            }
+
             const data = new FormData(form); // keep as form-data for PHP
             showStatus(true, 'Envoi en cours...');
             try {
