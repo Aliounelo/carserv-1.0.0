@@ -61,7 +61,7 @@
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Chargement...</span>
+            <span class="sr-only">Loading...</span>
         </div>
     </div>
     <!-- Spinner End -->
@@ -73,7 +73,7 @@
             <div class="col-lg-7 px-5 text-start">
                 <div class="h-100 d-inline-flex align-items-center py-3 me-4">
                     <small class="fa fa-map-marker-alt text-primary me-2"></small>
-                    <small>Dakar, SÃ©nÃ©gal</small>
+                    <small>Dakar, Sénégal</small>
                 </div>
                 <div class="h-100 d-inline-flex align-items-center py-3">
                     <small class="far fa-clock text-primary me-2"></small>
@@ -120,11 +120,11 @@
     <div class="container-fluid page-header mb-5 p-0" style="background-image: url(img/carousel-bg-1.jpg);">
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">RÃ©servation</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Réservation</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
                         <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">RÃ©servation</li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Réservation</li>
                     </ol>
                 </nav>
             </div>
@@ -141,8 +141,8 @@
                     <div class="d-flex py-5 px-4">
                         <i class="fa fa-check-circle fa-3x text-primary flex-shrink-0"></i>
                         <div class="ps-4">
-                            <h5 class="mb-3">QualitÃ© certifiÃ©e</h5>
-                            <p>Processus contrÃ´lÃ©s, piÃ¨ces d'origine et suivi rigoureux pour chaque prestation.</p>
+                            <h5 class="mb-3">Qualité certifiée</h5>
+                            <p>Processus contrôlés, pièces d'origine et suivi rigoureux pour chaque prestation.</p>
                             <span class="text-secondary border-bottom">Transparence totale</span>
                         </div>
                     </div>
@@ -151,9 +151,9 @@
                     <div class="d-flex bg-light py-5 px-4">
                         <i class="fa fa-users-cog fa-3x text-primary flex-shrink-0"></i>
                         <div class="ps-4">
-                            <h5 class="mb-3">Ã‰quipe experte</h5>
-                            <p>Techniciens certifiÃ©s et conseillers dÃ©diÃ©s pour le transport, la vente et la maintenance.</p>
-                            <span class="text-secondary border-bottom">Conseil personnalisÃ©</span>
+                            <h5 class="mb-3">Équipe experte</h5>
+                            <p>Techniciens certifiés et conseillers dédiés pour le transport, la vente et la maintenance.</p>
+                            <span class="text-secondary border-bottom">Conseil personnalisé</span>
                         </div>
                     </div>
                 </div>
@@ -161,9 +161,9 @@
                     <div class="d-flex py-5 px-4">
                         <i class="fa fa-headset fa-3x text-primary flex-shrink-0"></i>
                         <div class="ps-4">
-                            <h5 class="mb-3">Support rÃ©actif</h5>
-                            <p>DisponibilitÃ© 24/7 pour le suivi des demandes, rÃ©servations et assistance sur route.</p>
-                            <span class="text-secondary border-bottom">RÃ©ponse rapide</span>
+                            <h5 class="mb-3">Support réactif</h5>
+                            <p>Disponibilité 24/7 pour le suivi des demandes, réservations et assistance sur route.</p>
+                            <span class="text-secondary border-bottom">Réponse rapide</span>
                         </div>
                     </div>
                 </div>
@@ -179,8 +179,8 @@
             <div class="row gx-5">
                 <div class="col-lg-6 py-5">
                     <div class="py-5">
-                        <h1 class="text-white mb-4">RÃ©server un service MARGE</h1>
-                        <p class="text-white mb-0">Transport et logistique, vente ou location de vÃ©hicules, entretien et piÃ¨ces certifiÃ©es : indiquez vos besoins, notre Ã©quipe vous rÃ©pond rapidement avec un devis prÃ©cis et un planning adaptÃ©.</p>
+                        <h1 class="text-white mb-4">Réserver un service MARGE</h1>
+                        <p class="text-white mb-0">Transport et logistique, vente ou location de véhicules, entretien et pièces certifiées : indiquez vos besoins, notre équipe vous répond rapidement avec un devis précis et un planning adapté.</p>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -188,6 +188,7 @@
                         <h1 class="text-white mb-4">Planifier une intervention</h1>
                         <form id="bookingForm" novalidate>
                             <div class="row g-3">
+                                <input type="hidden" name="website" value="">
                                 <div class="col-12 col-sm-6">
                                     <input type="text" class="form-control border-0" name="name" placeholder="Votre nom" required style="height: 55px;">
                                 </div>
@@ -198,20 +199,20 @@
                                     <select class="form-select border-0" name="service" required style="height: 55px;">
                                         <option value="" selected>Choisissez un service</option>
                                         <option value="transport">Transport & Logistique</option>
-                                        <option value="location">Location de vÃ©hicule</option>
-                                        <option value="maintenance">Entretien / RÃ©paration</option>
-                                        <option value="pieces">PiÃ¨ces dÃ©tachÃ©es</option>
+                                        <option value="location">Location de véhicule</option>
+                                        <option value="maintenance">Entretien / Réparation</option>
+                                        <option value="pieces">Pièces détachées</option>
                                     </select>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="date" id="date1" data-target-input="nearest">
                                         <input type="text" name="date"
                                             class="form-control border-0 datetimepicker-input"
-                                            placeholder="Date souhaitÃ©e" data-target="#date1" data-toggle="datetimepicker" style="height: 55px;">
+                                            placeholder="Date souhaitée" data-target="#date1" data-toggle="datetimepicker" style="height: 55px;">
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <textarea class="form-control border-0" name="details" placeholder="DÃ©taillez votre besoin (itinÃ©raire, vÃ©hicule, quantitÃ©, etc.)" rows="3" required></textarea>
+                                    <textarea class="form-control border-0" name="details" placeholder="Détaillez votre besoin (itinéraire, véhicule, quantité, etc.)" rows="3" required></textarea>
                                 </div>
                                 <div class="col-12">
                                     <div id="bookingStatus" class="alert d-none" role="alert"></div>
@@ -235,8 +236,8 @@
             <div class="row g-4">
                 <div class="col-lg-8 col-md-6">
                     <h6 class="text-primary text-uppercase">// Assistance //</h6>
-                    <h1 class="mb-4">Une question avant de rÃ©server ?</h1>
-                    <p class="mb-0">Notre Ã©quipe vous aide Ã  choisir le service adaptÃ© : transport, location, entretien ou piÃ¨ces. RÃ©ponse sous 24h avec une proposition dÃ©taillÃ©e.</p>
+                    <h1 class="mb-4">Une question avant de réserver ?</h1>
+                    <p class="mb-0">Notre équipe vous aide à choisir le service adapté : transport, location, entretien ou pièces. Réponse sous 24h avec une proposition détaillée.</p>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="bg-primary d-flex flex-column justify-content-center text-center h-100 p-4">
@@ -256,9 +257,9 @@
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Adresse</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Dakar, SÃ©nÃ©gal</p>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Dakar, Sénégal</p>
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+221 78 015 15 82</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>contact@marge-expert.sn</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>contact@marge-expert.com</p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
@@ -277,12 +278,12 @@
                     <h4 class="text-light mb-4">Services</h4>
                     <a class="btn btn-link" href="booking.html">Transport & Logistique</a>
                     <a class="btn btn-link" href="booking.html">Vente & Location</a>
-                    <a class="btn btn-link" href="booking.html">Entretien & RÃ©paration</a>
-                    <a class="btn btn-link" href="booking.html">PiÃ¨ces certifiÃ©es</a>
+                    <a class="btn btn-link" href="booking.html">Entretien & Réparation</a>
+                    <a class="btn btn-link" href="booking.html">Pièces certifiées</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Newsletter</h4>
-                    <p>Recevez nos offres mobilitÃ©, disponibilitÃ© de vÃ©hicules et conseils d'entretien.</p>
+                    <p>Recevez nos offres mobilité, disponibilité de véhicules et conseils d'entretien.</p>
                     <div class="position-relative mx-auto" style="max-width: 400px;">
                         <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Votre email">
                         <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">S'inscrire</button>
@@ -294,7 +295,7 @@
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; 2025 Groupe MARGE. Tous droits rÃ©servÃ©s.
+                        &copy; 2025 Groupe MARGE. Tous droits réservés.
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
@@ -327,32 +328,6 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script>
-        document.getElementById("bookingForm")?.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const status = document.getElementById("bookingStatus");
-            if (status) {
-                status.classList.remove("d-none","alert-success","alert-danger");
-                status.classList.add("alert");
-                status.textContent = "Envoi en cours...";
-            }
-
-            const fd = new FormData(e.target);
-            fd.append("website","");
-
-            try {
-                const res = await fetch("/api/send-booking.php", { method:"POST", body: fd });
-                const data = await res.json();
-                if (!res.ok || !data.ok) throw new Error(data.error || "Erreur");
-                if (status) { status.classList.add("alert-success"); status.textContent = "Demande envoyée. Nous vous contactons rapidement."; }
-                e.target.reset();
-            } catch (err) {
-                if (status) { status.classList.add("alert-danger"); status.textContent = "Échec d'envoi. Réessayez plus tard."; }
-            }
-        });
-    </script>
-
 </body>
 
 </html>
-

@@ -118,18 +118,20 @@
         const showStatus = (ok, message) => {
             status.classList.remove('d-none', 'alert-success', 'alert-danger');
             status.classList.add(ok ? 'alert-success' : 'alert-danger');
+            // Enforce clear color feedback (green on success, red on error)
+            status.style.backgroundColor = ok ? '#d1e7dd' : '#f8d7da';
+            status.style.color = ok ? '#0f5132' : '#842029';
             status.textContent = message;
         };
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const data = Object.fromEntries(new FormData(form).entries());
+            const data = new FormData(form); // keep as form-data for PHP
             showStatus(true, 'Envoi en cours...');
             try {
                 const res = await fetch(endpoint, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
+                    body: data,
                 });
                 const body = await res.json().catch(() => ({}));
                 if (!res.ok || !body.ok) {

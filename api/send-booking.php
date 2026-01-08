@@ -13,6 +13,21 @@ rate_limit_or_die((int)$config['max_per_15min'], 900);
 function t($v): string { return trim((string)($v ?? '')); }
 function emailv($v): string { return trim(filter_var($v ?? '', FILTER_SANITIZE_EMAIL)); }
 
+function send_mail_simple(string $to, string $from, string $fromName, string $replyName, string $replyEmail, string $subject, string $body): bool {
+  $headers = [];
+  $headers[] = "From: {$fromName} <{$from}>";
+  $headers[] = "Reply-To: {$replyName} <{$replyEmail}>";
+  $headers[] = "Content-Type: text/plain; charset=UTF-8";
+  $headersStr = implode("\r\n", $headers);
+
+  $logPath = __DIR__ . '/mail_dev.log';
+  $sent = mail($to, $subject, $body, $headersStr);
+  if (!$sent) {
+    file_put_contents($logPath, "=== BOOKING (FAILED SEND, LOGGED) ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
+  }
+  return $sent;
+}
+
 $name    = t($_POST['name'] ?? '');
 $email   = emailv($_POST['email'] ?? '');
 $service = t($_POST['service'] ?? '');
@@ -28,35 +43,15 @@ if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $service === '
   exit;
 }
 
-try {
-  require __DIR__ . '/../vendor/autoload.php';
-  $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+$body = "Nouvelle demande (Booking/Devis)\n\n"
+      . "Nom: $name\nEmail: $email\nService: $service\nDate: $date\n\n"
+      . "Détails:\n$details\n";
 
-  $mail->isSMTP();
-  $mail->Host       = $config['smtp_host'];
-  $mail->SMTPAuth   = true;
-  $mail->Username   = $config['smtp_user'];
-  $mail->Password   = $config['smtp_pass'];
-  $mail->SMTPSecure = $config['smtp_secure'];
-  $mail->Port       = (int)$config['smtp_port'];
+$ok = send_mail_simple($config['to_booking'], $config['from_email'], $config['from_name'], $name, $email, "[MARGE][Demande] $service", $body);
 
-  $mail->CharSet = 'UTF-8';
-  $mail->setFrom($config['from_email'], $config['from_name']);
-  $mail->addAddress($config['to_booking']);
-  $mail->addReplyTo($email, $name);
-
-  $mail->Subject = "[MARGE][Demande] " . $service;
-
-  $body = "Nouvelle demande (Booking/Devis)\n\n"
-        . "Nom: $name\nEmail: $email\nService: $service\nDate: $date\n\n"
-        . "Détails:\n$details\n";
-
-  $mail->Body = $body;
-  $mail->send();
-
+if ($ok) {
   echo json_encode(['ok'=>true,'message'=>'Demande envoyée.']);
-} catch (Throwable $e) {
-  error_log("MAIL ERROR: " . $e->getMessage());
+} else {
   http_response_code(500);
   echo json_encode(['ok'=>false,'error'=>"Erreur serveur."]);
 }
