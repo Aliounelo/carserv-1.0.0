@@ -15,6 +15,9 @@
     <meta property="og:url" content="https://www.marge-expert.com/">
     <meta property="og:image" content="https://www.marge-expert.com/img/carousel-bg-1.jpg">
     <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:locale" content="fr_SN">
+    <meta name="geo.region" content="SN">
+    <meta name="geo.placename" content="Dakar">
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -38,6 +41,47 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "MARGE",
+      "image": "https://www.marge-expert.com/img/logo-marge.png",
+      "@id": "https://www.marge-expert.com/#local",
+      "url": "https://www.marge-expert.com/",
+      "telephone": "+221780151582",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Dakar, Sénégal",
+        "addressCountry": "SN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 14.7167,
+        "longitude": -17.4677
+      },
+      "areaServed": ["SN"],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+          "opens": "08:00",
+          "closes": "18:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "09:00",
+          "closes": "13:00"
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/",
+        "https://www.linkedin.com/",
+        "https://www.instagram.com/"
+      ]
+    }
+    </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -100,7 +144,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0" style="color:var(--primary);"><i aria-hidden="true"></i>MARGE</h2>
+            <img src="img/logo-marge.png" alt="MARGE" class="img-fluid logo-marge">
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -109,6 +153,7 @@
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="index.html" class="nav-item nav-link active">Accueil</a>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="https://translate.google.com/translate?hl=en&sl=fr&tl=en&u=https://www.marge-expert.com" class="nav-item nav-link">🇬🇧 EN</a>
             </div>
             <a href="booking.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Demander un Devis<i class="fa fa-arrow-right ms-3"></i></a>
         </div>

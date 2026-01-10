@@ -28,6 +28,20 @@
     box-shadow: none;
 }
 
+/* Navbar logo */
+.navbar-brand .logo-marge {
+    height: 110px;
+    width: auto;
+}
+
+/* Ensure elements remain visible even if animations fail to trigger */
+.wow,
+.animated {
+    visibility: visible !important;
+    opacity: 1 !important;
+    animation-name: none !important;
+}
+
 .fw-medium {
     font-weight: 600 !important;
 }
