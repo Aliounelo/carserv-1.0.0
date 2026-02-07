@@ -9,6 +9,7 @@ header('Content-Type: application/json; charset=utf-8');
 $config = require __DIR__ . '/config.php';
 require __DIR__ . '/rate_limit.php';
 rate_limit_or_die((int)$config['max_per_15min'], 900);
+require __DIR__ . '/db.php';
 
 function t($v): string { return trim((string)($v ?? '')); }
 function emailv($v): string { return trim(filter_var($v ?? '', FILTER_SANITIZE_EMAIL)); }
@@ -38,7 +39,7 @@ function send_mail_simple(string $to, string $from, string $fromName, string $re
   $headersStr = implode("\r\n", $headers);
 
   $logPath = __DIR__ . '/mail_dev.log';
-  $sent = mail($to, $subject, $body, $headersStr);
+  $sent = @mail($to, $subject, $body, $headersStr);
   if (!$sent) {
     file_put_contents($logPath, "=== CONTACT (FAILED SEND, LOGGED) ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
   }
@@ -47,25 +48,39 @@ function send_mail_simple(string $to, string $from, string $fromName, string $re
 
 $name    = t($_POST['name'] ?? '');
 $email   = emailv($_POST['email'] ?? '');
+$phone   = t($_POST['phone'] ?? '');
 $subject = t($_POST['subject'] ?? '');
 $message = trim((string)($_POST['message'] ?? ''));
-$phoneFull = t($_POST['phone'] ?? '');
 
 // Honeypot anti-bot (champ caché optionnel)
 $hp = t($_POST['website'] ?? '');
 if ($hp !== '') { echo json_encode(['ok'=>true]); exit; }
 
-if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $subject === '' || $message === '' || $phoneFull === '') {
+if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $subject === '' || $message === '' || $phone === '') {
   http_response_code(400);
   echo json_encode(['ok'=>false,'error'=>'Champs invalides.']);
   exit;
 }
 
 // Stop duplicate submissions within a short window
-$fingerprint = implode('|', [$email, $subject, substr($message, 0, 120), $phoneFull]);
+$fingerprint = implode('|', [$email, $subject, substr($message, 0, 120), $phone]);
 if (already_sent_recent($fingerprint, 90)) {
   echo json_encode(['ok'=>true,'message'=>'Déjà envoyé (duplication ignorée).']);
   exit;
+}
+
+try {
+  insert_lead([
+    'type' => 'contact',
+    'name' => $name,
+    'email' => $email,
+    'phone' => $phone,
+    'subject' => $subject,
+    'message' => $message,
+    'source' => 'site'
+  ]);
+} catch (Throwable $e) {
+  error_log('DB lead insert failed (contact): ' . $e->getMessage());
 }
 
 $body = '
@@ -122,7 +137,7 @@ $body = '
 
                 <tr>
                   <td style="padding:6px 0; color:#6b7280;"><strong>Téléphone</strong></td>
-                  <td style="padding:6px 0;">'.htmlspecialchars($phoneFull).'</td>
+                  <td style="padding:6px 0;">'.htmlspecialchars($phone).'</td>
                 </tr>
 
               </table>
@@ -164,7 +179,7 @@ if ($ok) {
     "Nouveau message Contact\n".
     "Nom: $name\n".
     "Email: $email\n".
-    "Téléphone: $phoneFull\n".
+    "Téléphone: $phone\n".
     "Objet: $subject\n".
     "Message: $message"
   );

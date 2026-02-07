@@ -9,6 +9,7 @@ header('Content-Type: application/json; charset=utf-8');
 $config = require __DIR__ . '/config.php';
 require __DIR__ . '/rate_limit.php';
 rate_limit_or_die((int)$config['max_per_15min'], 900);
+require __DIR__ . '/db.php';
 
 function t($v): string { return trim((string)($v ?? '')); }
 function emailv($v): string { return trim(filter_var($v ?? '', FILTER_SANITIZE_EMAIL)); }
@@ -38,7 +39,7 @@ function send_mail_simple(string $to, string $from, string $fromName, string $re
   $headersStr = implode("\r\n", $headers);
 
   $logPath = __DIR__ . '/mail_dev.log';
-  $sent = mail($to, $subject, $body, $headersStr);
+  $sent = @mail($to, $subject, $body, $headersStr);
   if (!$sent) {
     file_put_contents($logPath, "=== BOOKING (FAILED SEND, LOGGED) ===\nSubject: $subject\n$body\n\n", FILE_APPEND);
   }
@@ -67,6 +68,21 @@ $fingerprint = $submissionId !== '' ? $submissionId : implode('|', [$email, $ser
 if (already_sent_recent($fingerprint, 120)) {
   echo json_encode(['ok'=>true,'message'=>'Déjà envoyé (duplication ignorée).']);
   exit;
+}
+
+try {
+  insert_lead([
+    'type' => 'booking',
+    'name' => $name,
+    'email' => $email,
+    'phone' => $phoneFull,
+    'service' => $service,
+    'requested_date' => $date,
+    'details' => $details,
+    'source' => 'site'
+  ]);
+} catch (Throwable $e) {
+  error_log('DB lead insert failed (booking): ' . $e->getMessage());
 }
 
 $fromEmail = $config['from_booking_email'] ?? $config['from_email'];
@@ -117,6 +133,11 @@ $body = '
                       '.htmlspecialchars($email).'
                     </a>
                   </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:6px 0; color:#6b7280;"><strong>Téléphone</strong></td>
+                  <td style="padding:6px 0;">'.htmlspecialchars($phoneFull).'</td>
                 </tr>
 
                 <tr>
