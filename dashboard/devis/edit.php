@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 declare(strict_types=1);
 
 require_once __DIR__ . '/../_inc/auth.php';
@@ -115,6 +115,7 @@ render_header('Modifier devis');
 <div class="admin-card">
   <div class="admin-section-title">
     <h5>Modifier devis</h5>
+    <a class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 text-sm hover:bg-slate-50" href="/dashboard/devis/view.php?id=<?php echo (int)$id; ?>">Retour</a>
   </div>
   <style>
     input[type="number"]::-webkit-outer-spin-button,

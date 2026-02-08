@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../_inc/auth.php';
 require_login();
 require_admin();

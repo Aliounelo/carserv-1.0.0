@@ -23,4 +23,4 @@ $pdo = db();
 $now = date('Y-m-d H:i:s');
 $pdo->prepare('UPDATE devis SET archived_at = :a WHERE id = :id')->execute([':a' => $now, ':id' => $id]);
 audit_log('archive_devis', 'devis', $id, [], current_user(), current_role());
-header('Location: /dashboard/devis/view.php?id=' . $id);
+header('Location: /dashboard/devis/list.php');

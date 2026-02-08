@@ -13,7 +13,10 @@ render_header('Historique');
 <div class="admin-card">
   <div class="admin-section-title">
     <h5>Historique des modifications</h5>
-    <span class="admin-note">Visible uniquement par l’admin</span>
+    <div class="flex items-center gap-3">
+      <span class="admin-note">Visible uniquement par l&rsquo;admin</span>
+      <a class="btn-ghost" href="/dashboard/settings/audit_export.php">Exporter CSV</a>
+    </div>
   </div>
   <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
     <div class="max-w-full overflow-x-auto">
@@ -24,7 +27,7 @@ render_header('Historique');
             <th class="px-5 py-3 text-start text-slate-500 text-sm">Utilisateur</th>
             <th class="px-5 py-3 text-start text-slate-500 text-sm">Action</th>
             <th class="px-5 py-3 text-start text-slate-500 text-sm">Cible</th>
-            <th class="px-5 py-3 text-start text-slate-500 text-sm">Détails</th>
+            <th class="px-5 py-3 text-start text-slate-500 text-sm">D&eacute;tails</th>
             <th class="px-5 py-3 text-start text-slate-500 text-sm">IP</th>
           </tr>
         </thead>
@@ -38,8 +41,9 @@ render_header('Historique');
                 <td class="px-5 py-3 text-slate-700"><?php echo htmlspecialchars($r['user']); ?> <span class="text-xs text-slate-400">(<?php echo htmlspecialchars($r['role']); ?>)</span></td>
                 <td class="px-5 py-3 text-slate-700"><?php echo htmlspecialchars($r['action']); ?></td>
                 <td class="px-5 py-3 text-slate-600"><?php echo htmlspecialchars($r['entity']); ?> #<?php echo htmlspecialchars((string)$r['entity_id']); ?></td>
-                <td class="px-5 py-3 text-slate-500 text-xs" style="max-width:320px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                  <?php echo htmlspecialchars((string)$r['details']); ?>
+                <td class="px-5 py-3 text-slate-500 text-xs hover-cell">
+                  <span class="hover-ellipsis"><?php echo htmlspecialchars((string)$r['details']); ?></span>
+                  <span class="hover-box"><?php echo htmlspecialchars((string)$r['details']); ?></span>
                 </td>
                 <td class="px-5 py-3 text-slate-400"><?php echo htmlspecialchars((string)$r['ip']); ?></td>
               </tr>
@@ -51,3 +55,4 @@ render_header('Historique');
   </div>
 </div>
 <?php render_footer(); ?>
+

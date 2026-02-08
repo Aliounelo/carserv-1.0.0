@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 declare(strict_types=1);
 
 require_once __DIR__ . '/../_inc/auth.php';
@@ -50,6 +50,7 @@ render_header('Modifier lead #' . $lead['id']);
 <div class="admin-card">
   <div class="admin-section-title">
     <h5>Mettre &agrave; jour le lead</h5>
+    <a class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 text-sm hover:bg-slate-50" href="/dashboard/leads/view.php?id=<?php echo (int)$lead['id']; ?>">Retour</a>
   </div>
   <form method="post" class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">

@@ -34,6 +34,7 @@ render_header('Fiche lead #' . $lead['id']);
       <div class="admin-note"><?php echo htmlspecialchars($lead['type']); ?> &middot; <?php echo htmlspecialchars($lead['created_at']); ?></div>
     </div>
     <div class="d-flex gap-2">
+      <a class="btn btn-light" href="/dashboard/leads/list.php">Retour aux leads</a>
       <a class="btn btn-outline-primary" href="/dashboard/leads/edit.php?id=<?php echo (int)$lead['id']; ?>">Modifier statut</a>
       <a class="btn btn-primary" href="/dashboard/devis/create.php?lead_id=<?php echo (int)$lead['id']; ?>">Cr&eacute;er un devis</a>
       <?php if (is_admin()): ?>

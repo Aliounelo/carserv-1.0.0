@@ -213,6 +213,33 @@ function audit_log(string $action, string $entity, ?int $entityId = null, array 
     $pdo = db();
     $now = date('Y-m-d H:i:s');
     $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    $detailsJson = $details ? json_encode($details, JSON_UNESCAPED_UNICODE) : null;
+
+    // Deduplicate identical audit logs within a short window (avoid double submits)
+    $dedupWindow = 10; // seconds
+    try {
+        $stmt = $pdo->prepare('SELECT id, created_at FROM audit_logs
+            WHERE user = :user AND action = :action AND entity = :entity
+              AND (entity_id = :entity_id OR (:entity_id IS NULL AND entity_id IS NULL))
+              AND (details = :details OR (:details IS NULL AND details IS NULL))
+            ORDER BY id DESC LIMIT 1');
+        $stmt->execute([
+            ':user' => $user,
+            ':action' => $action,
+            ':entity' => $entity,
+            ':entity_id' => $entityId,
+            ':details' => $detailsJson,
+        ]);
+        $last = $stmt->fetch();
+        if ($last && !empty($last['created_at'])) {
+            $lastTs = strtotime((string)$last['created_at']);
+            if ($lastTs && (time() - $lastTs) < $dedupWindow) {
+                return;
+            }
+        }
+    } catch (Throwable $e) {
+        // ignore dedup errors, still log
+    }
     $stmt = $pdo->prepare('INSERT INTO audit_logs (user, role, action, entity, entity_id, details, ip, created_at)
         VALUES (:user, :role, :action, :entity, :entity_id, :details, :ip, :created_at)');
     $stmt->execute([
@@ -221,7 +248,7 @@ function audit_log(string $action, string $entity, ?int $entityId = null, array 
         ':action' => $action,
         ':entity' => $entity,
         ':entity_id' => $entityId,
-        ':details' => $details ? json_encode($details, JSON_UNESCAPED_UNICODE) : null,
+        ':details' => $detailsJson,
         ':ip' => $ip,
         ':created_at' => $now,
     ]);

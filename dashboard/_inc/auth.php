@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 declare(strict_types=1);
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
@@ -57,3 +57,4 @@ function maybe_upgrade_password_hash(string $plain): void {
   $export = "<?php\n\nreturn " . var_export($cfg, true) . ";\n";
   file_put_contents($cfgPath, $export);
 }
+
